@@ -15,9 +15,21 @@ const Idea = sequelize.define("Idea", {
       key: "id",
     },
   },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  supporting_documents: {
+    type: DataTypes.JSON,
+    defaultValue: [],
+  },
   content: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   submission_date: {
     type: DataTypes.DATE,
@@ -36,6 +48,7 @@ const Idea = sequelize.define("Idea", {
   },
   validation_result: {
     type: DataTypes.JSON,
+    allowNull: true,
   },
 });
 
