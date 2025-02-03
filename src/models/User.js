@@ -28,6 +28,10 @@ const User = sequelize.define("User", {
     type: DataTypes.ENUM("CEO", "Admin", "Member"),
     defaultValue: "Member",
   },
+  department_ids: {
+    type: DataTypes.ARRAY(DataTypes.UUID),
+    defaultValue: [],
+  },
 });
 
 module.exports = User;

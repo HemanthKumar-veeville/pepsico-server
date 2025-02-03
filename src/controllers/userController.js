@@ -1,4 +1,5 @@
 const userService = require("../services/userService");
+const jwt = require("jsonwebtoken");
 
 class UserController {
   async createUser(req, res) {
@@ -6,7 +7,12 @@ class UserController {
       const user = await userService.createUser(req.body);
       res.status(201).json({
         success: true,
-        data: user,
+        user,
+        token: jwt.sign(
+          { id: user.id, role: user.role },
+          process.env.JWT_SECRET,
+          { expiresIn: "24h" }
+        ),
       });
     } catch (error) {
       if (error.message.includes("already exists")) {

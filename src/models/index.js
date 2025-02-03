@@ -1,8 +1,7 @@
 const User = require("./User");
 const Idea = require("./Idea");
 const Department = require("./Department");
-const Team = require("./Team");
-const UserTeam = require("./UserTeam");
+const UserDepartment = require("./UserDepartment");
 const NotificationPolicy = require("./NotificationPolicy");
 const Notification = require("./Notification");
 
@@ -14,19 +13,13 @@ Idea.belongsTo(User);
 Department.hasMany(Idea);
 Idea.belongsTo(Department);
 
-Department.hasMany(Team);
-Team.belongsTo(Department);
+// User-Department many-to-many relationship
+User.belongsToMany(Department, { through: UserDepartment });
+Department.belongsToMany(User, { through: UserDepartment });
 
+// Department-NotificationPolicy association
 Department.hasMany(NotificationPolicy);
 NotificationPolicy.belongsTo(Department);
-
-// Team associations
-Team.hasMany(NotificationPolicy);
-NotificationPolicy.belongsTo(Team);
-
-// User-Team many-to-many relationship
-User.belongsToMany(Team, { through: UserTeam });
-Team.belongsToMany(User, { through: UserTeam });
 
 // Notification associations
 Idea.hasMany(Notification);
@@ -39,8 +32,7 @@ module.exports = {
   User,
   Idea,
   Department,
-  Team,
-  UserTeam,
+  UserDepartment,
   NotificationPolicy,
   Notification,
 };

@@ -46,6 +46,10 @@ const Idea = sequelize.define("Idea", {
       key: "id",
     },
   },
+  department_name: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   validation_result: {
     type: DataTypes.JSON,
     allowNull: true,
@@ -53,3 +57,8 @@ const Idea = sequelize.define("Idea", {
 });
 
 module.exports = Idea;
+
+// send idea to chatgpt to get the department name
+// based on the department name, get the department id
+// save the department id in the idea
+// send the idea to the department users with the department id
