@@ -19,7 +19,15 @@ const io = new Server(httpServer, {
   },
 });
 
-app.use(cors());
+// Configure CORS properly
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || "https://pepsico-idea-2qcc.vercel.app/",
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true, // Enable if using cookies/sessions
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
