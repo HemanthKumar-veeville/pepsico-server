@@ -3,6 +3,7 @@ const { io } = require("../app");
 
 class IdeaController {
   async createIdea(req, res) {
+    console.log({ id: req.user.id });
     try {
       const idea = await ideaService.createIdea(req.body, req.user.id);
 
