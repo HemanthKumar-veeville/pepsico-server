@@ -3,12 +3,11 @@ const { io } = require("../app");
 
 class IdeaController {
   async createIdea(req, res) {
-    console.log({ id: req.user.id });
     try {
       const idea = await ideaService.createIdea(req.body, req.user.id);
 
       // Emit socket event for real-time updates
-      //   io.emit("newIdea", idea);
+      io.emit("newIdea", idea);
 
       res.status(201).json({
         success: true,
