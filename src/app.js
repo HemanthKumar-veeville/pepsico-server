@@ -6,28 +6,18 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 const ideaRoutes = require("./routes/ideaRoutes");
 const departmentRoutes = require("./routes/departmentRoutes");
-
+const dotenv = require("dotenv");
+dotenv.config();
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin:
-      process.env.FRONTEND_URL ||
-      "http://localhost:5173" ||
-      "https://pepsico-idea-2qcc.vercel.app/",
+    origin: process.env.FRONTEND_URL || "https://pepsico-idea-2qcc.vercel.app/",
     methods: ["GET", "POST"],
   },
 });
 
-// Configure CORS properly
-const corsOptions = {
-  origin: process.env.FRONTEND_URL || "https://pepsico-idea-2qcc.vercel.app/",
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true, // Enable if using cookies/sessions
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 // Routes
