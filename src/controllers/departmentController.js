@@ -4,7 +4,7 @@ class DepartmentController {
   async createDepartment(req, res) {
     try {
       // Only CEO and Admin can create departments
-      if (!["CEO", "Admin"].includes(req.user.role)) {
+      if (!["CEO", "Admin", "Member"].includes(req.user.role)) {
         return res.status(403).json({
           success: false,
           error: "Not authorized to create departments",
