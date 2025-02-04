@@ -37,6 +37,21 @@ class IdeaController {
     }
   }
 
+  async getRelatedIdeas(req, res) {
+    try {
+      const ideas = await ideaService.getRelatedIdeas(req.user.id);
+      res.status(200).json({
+        success: true,
+        data: ideas,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+
   async getIdeaById(req, res) {
     try {
       const idea = await ideaService.getIdeaById(req.params.id);

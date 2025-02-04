@@ -120,7 +120,7 @@ Remember: Respond only with the department ID number, nothing else.`;
     }
   }
 
-  async getDepartmentIdeas(userId) {
+  async getRelatedIdeas(userId) {
     try {
       // First get the user with their department_ids
       const user = await User.findByPk(userId);
