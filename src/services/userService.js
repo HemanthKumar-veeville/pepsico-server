@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Department } = require("../models");
 
 class UserService {
   async createUser(userData) {
@@ -46,7 +46,16 @@ class UserService {
 
   async getAllUsers() {
     try {
-      return await User.findAll();
+      return await User.findAll({
+        include: [
+          {
+            model: Department,
+            attributes: ["id", "name"],
+            // If you have defined the association as belongsToMany, use:
+            // through: { attributes: [] }, // This will exclude junction table attributes
+          },
+        ],
+      });
     } catch (error) {
       throw new Error(`Failed to fetch users: ${error.message}`);
     }

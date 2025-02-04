@@ -9,6 +9,7 @@ const openai = new OpenAI({
 
 class IdeaService {
   async createIdea(ideaData, userId) {
+    console.log({ ideaData, userId });
     try {
       // 1. First create the idea with initial data
       const idea = await Idea.create({
@@ -119,7 +120,7 @@ Remember: Respond only with the department ID number, nothing else.`;
     }
   }
 
-  async getAllIdeas(userId) {
+  async getDepartmentIdeas(userId) {
     try {
       // First get the user with their department_ids
       const user = await User.findByPk(userId);
@@ -150,6 +151,37 @@ Remember: Respond only with the department ID number, nothing else.`;
       const ideas = await Idea.findAll(query);
 
       return ideas;
+    } catch (error) {
+      throw new Error(`Failed to fetch ideas: ${error.message}`);
+    }
+  }
+
+  async getAllIdeas(userId) {
+    try {
+      // First get the user with their department_ids
+      const user = await User.findByPk(userId);
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      const userName = await user.name;
+
+      // Build the query
+      const query = {
+        include: [
+          { model: User, attributes: ["id", "name", "email"] },
+          { model: Department, attributes: ["id", "name"] },
+        ],
+        order: [["createdAt", "DESC"]],
+      };
+
+      const ideas = await Idea.findAll(query);
+      const plainIdeas = ideas.map((idea) => idea.get({ plain: true }));
+      const formattedIdeas = plainIdeas.map((idea) => ({
+        ...idea,
+        userName: userName,
+      }));
+      return formattedIdeas;
     } catch (error) {
       throw new Error(`Failed to fetch ideas: ${error.message}`);
     }

@@ -7,6 +7,7 @@ const { Server } = require("socket.io");
 const ideaRoutes = require("./routes/ideaRoutes");
 const departmentRoutes = require("./routes/departmentRoutes");
 const dotenv = require("dotenv");
+const fileRoutes = require("./routes/fileRoutes");
 dotenv.config();
 const app = express();
 const httpServer = createServer(app);
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/ideas", ideaRoutes);
 app.use("/api/departments", departmentRoutes);
+app.use("/api/files", fileRoutes);
 
 // Socket.IO connection handling
 io.on("connection", (socket) => {
