@@ -15,6 +15,10 @@ const Idea = sequelize.define("Idea", {
       key: "id",
     },
   },
+  user_name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   title: {
     type: DataTypes.STRING,
     allowNull: true,
@@ -53,6 +57,14 @@ const Idea = sequelize.define("Idea", {
   validation_result: {
     type: DataTypes.JSON,
     allowNull: true,
+  },
+  likes: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
+  comments: {
+    type: DataTypes.JSON,
+    defaultValue: [],
   },
 });
 

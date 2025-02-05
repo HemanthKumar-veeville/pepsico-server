@@ -9,11 +9,14 @@ const openai = new OpenAI({
 
 class IdeaService {
   async createIdea(ideaData, userId) {
-    console.log({ ideaData, userId });
     try {
+      const user = await User.findByPk(userId);
+
+      const userName = user.name;
       // 1. First create the idea with initial data
       const idea = await Idea.create({
         user_id: userId,
+        user_name: userName,
         title: ideaData.title,
         description: ideaData.description,
         content: ideaData.content,
@@ -164,8 +167,6 @@ Remember: Respond only with the department ID number, nothing else.`;
         throw new Error("User not found");
       }
 
-      const userName = await user.name;
-
       // Build the query
       const query = {
         include: [
@@ -176,12 +177,7 @@ Remember: Respond only with the department ID number, nothing else.`;
       };
 
       const ideas = await Idea.findAll(query);
-      const plainIdeas = ideas.map((idea) => idea.get({ plain: true }));
-      const formattedIdeas = plainIdeas.map((idea) => ({
-        ...idea,
-        userName: userName,
-      }));
-      return formattedIdeas;
+      return ideas;
     } catch (error) {
       throw new Error(`Failed to fetch ideas: ${error.message}`);
     }
